@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0f0c"><meta name="robots" content="noindex">
+<title>ZAYO LN</title>
+<style>
+:root{color-scheme:dark;--bg:#0b0f0c;--p:#121813;--p2:#1a231c;--ln:#27342b;--tx:#eef3ee;--mu:#9aa89c;--ac:#c7ff58;--rd:#ff8a80;--r:12px}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:14px 14px calc(80px + env(safe-area-inset-bottom));max-width:820px;margin:auto}
+h2{font-size:24px;letter-spacing:-.02em;margin:6px 0 14px}h3{font-size:16px;margin-bottom:8px}h4{font-size:13px;color:var(--mu);margin:16px 0 6px;font-weight:600}
+.mu,small{color:var(--mu);font-size:13px}small{display:block}
+.panel{background:var(--p);border:1px solid var(--ln);border-radius:var(--r);padding:14px;margin-bottom:10px}
+button,.btn,input,select,textarea{font:inherit;color:inherit}
+button,.btn{background:var(--p2);border:1px solid var(--ln);border-radius:10px;padding:8px 14px;cursor:pointer;min-height:40px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+button:hover,.btn:hover{border-color:#486650}button.on{border-color:var(--ac);color:var(--ac)}
+.pri{background:var(--ac);color:#0b1208;border-color:transparent;font-weight:700}.dg{color:var(--rd)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+input,select,textarea{width:100%;background:#0c120e;border:1px solid var(--ln);border-radius:10px;padding:9px 11px;min-height:40px}
+textarea{min-height:72px;resize:vertical}
+label{display:block;font-size:13px;color:var(--mu)}label input,label select,label textarea{margin-top:4px;color:var(--tx)}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:10px}.f:has(textarea){grid-column:1/-1}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.bw{justify-content:space-between}.ln{border-bottom:1px solid var(--ln);padding:8px 0}
+.chk{display:flex;gap:12px;align-items:center;padding:9px 2px;color:var(--tx);font-size:15px;cursor:pointer;border-bottom:1px solid var(--ln)}
+.chk:last-child{border:0}.chk input{width:22px;height:22px;min-height:0;margin:0;accent-color:var(--ac);flex:none}.chk:has(:checked) span{color:var(--mu);text-decoration:line-through}
+.bar{height:8px;background:var(--p2);border-radius:9px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:var(--ac);width:0;transition:width .3s}
+.big{font-size:48px;line-height:1;font-weight:800;color:var(--ac);font-variant-numeric:tabular-nums}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:10px}.stats>div{background:var(--p);border:1px solid var(--ln);border-radius:var(--r);padding:10px 12px}.stats b{font-size:21px;display:block}
+.it{display:flex;justify-content:space-between;gap:10px;padding:12px;border:1px solid var(--ln);border-radius:var(--r);background:var(--p);margin-bottom:6px}.it p{margin-top:4px;white-space:pre-wrap;font-size:14px}.dim{opacity:.55}
+.ac{display:flex;gap:4px;flex:none;align-items:flex-start}.ac button{min-height:34px;padding:4px 10px;font-size:13px}
+.empty,.note{border:1px dashed var(--ln);border-radius:var(--r);padding:16px;color:var(--mu);text-align:center;margin-bottom:10px}.note{border-style:solid;color:var(--tx);text-align:left}
+.od{color:var(--rd)}summary{cursor:pointer;font-weight:600;min-height:28px}
+.wb,.hm{display:grid;gap:6px;grid-template-columns:repeat(7,1fr)}.wb div{text-align:center;font-size:12px;color:var(--mu)}.wb i{display:block;height:70px;background:var(--p2);border-radius:6px;position:relative;overflow:hidden;margin-bottom:4px}.wb em{position:absolute;bottom:0;left:0;right:0;background:var(--ac)}
+.hm div{aspect-ratio:1;border-radius:5px;background:color-mix(in srgb,var(--ac) calc(var(--l)*100%),var(--p2));font-size:12px;display:grid;place-items:center;color:var(--mu)}
+.td{font-size:clamp(56px,16vw,88px);font-weight:800;text-align:center;font-variant-numeric:tabular-nums;margin:8px 0}.pre{display:flex;gap:8px;justify-content:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-bottom:8px}.card{flex-direction:column;align-items:flex-start;text-align:left;padding:12px;position:relative;height:100%}.card small{margin-top:3px}.st{position:absolute;top:8px;right:10px;color:var(--ac)}
+.tr{display:flex;align-items:center;gap:12px;padding:5px 0}.tr span{flex:1}.sl{width:100px;height:28px}
+dialog{background:var(--p);color:var(--tx);border:1px solid var(--ln);border-radius:16px;padding:20px;width:min(440px,92vw);margin:auto}dialog::backdrop{background:rgba(0,0,0,.7)}
+#toasts{position:fixed;left:12px;right:12px;bottom:calc(86px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:6px;z-index:9;pointer-events:none}
+.toast{pointer-events:auto;background:var(--p2);border:1px solid var(--ln);border-radius:12px;padding:8px 10px 8px 14px;display:flex;gap:10px;align-items:center}.toast button{min-height:32px;padding:2px 10px;color:var(--ac)}
+.vh{position:absolute;opacity:0;width:1px;height:1px}.btn:has(:focus-visible){outline:2px solid var(--ac)}
+#nav{position:fixed;left:0;right:0;bottom:0;display:flex;overflow-x:auto;background:rgba(11,15,12,.96);border-top:1px solid var(--ln);padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:5;scrollbar-width:none}
+#nav a{flex:1 0 66px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;color:var(--mu);text-decoration:none;padding:6px 4px;border-radius:10px}#nav a.on{color:var(--ac)}
+#nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.brand{display:none;font-weight:900;letter-spacing:.14em;margin:0 12px 14px}.brand span{color:var(--ac)}
+@media(min-width:900px){body{padding:24px 24px 40px 230px;max-width:1060px;margin:0}#nav{top:0;right:auto;bottom:auto;width:206px;flex-direction:column;border:0;border-right:1px solid var(--ln);padding:22px 12px;overflow:visible}#nav a{flex:none;flex-direction:row;gap:10px;font-size:14px;padding:10px 12px}.brand{display:block}#toasts{bottom:20px;left:230px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style></head><body>
+<nav id="nav" aria-label="Main"></nav>
+<div id="warn" class="note" role="status" hidden>Storage is blocked, so data lasts this session only. Export before you close the tab.</div>
+<main id="app"></main><dialog id="dlg"></dialog><div id="toasts" role="status" aria-live="polite"></div>
+<script>
+'use strict';
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],P='zayoln-',mem=new Map();
+const read=(k,d)=>{try{const r=mem.has(P+k)?mem.get(P+k):localStorage.getItem(P+k);return r==null?d:JSON.parse(r)}catch{return d}};
+const write=(k,v)=>{const r=JSON.stringify(v);try{localStorage.setItem(P+k,r);mem.delete(P+k)}catch{mem.set(P+k,r);$('#warn').hidden=false}};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const dk=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const off=n=>{const d=new Date();d.setDate(d.getDate()+n);return dk(d)};
+const pd=s=>{if(!s)return'';const d=new Date(s+'T12:00:00');return isNaN(d)?s:d.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})};
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const lnk=u=>/^https?:\/\//i.test(u||'')?` <a href="${esc(u)}" target="_blank" rel="noopener" style="color:var(--ac)">Open</a>`:'';
+function toast(m,undo){const e=document.createElement('div');e.className='toast';e.textContent=m;if(undo){const b=document.createElement('button');b.textContent='Undo';b.onclick=()=>{undo();e.remove()};e.append(b)}$('#toasts').append(e);setTimeout(()=>e.remove(),undo?6000:2200)}
+
+const HAB=[['water','Drink water through the day'],['food','Eat proper meals with protein'],['skill','Focused scrum-half skill work'],['study','Study IT for at least 25 minutes'],['create','Make or study one creative thing'],['move','Mobility, recovery or a walk'],['reflect','Write a short daily review'],['sleep','Protect a proper sleep window']];
+const GM=[['bed','Make the bed'],['teethAM','Brush teeth, 2 minutes'],['washAM','Wash face and moisturise'],['washBody','Shower and deodorant'],['cleanFit','Put on clean clothes'],['waterAM','Fill your water bottle']];
+const GE=[['teethPM','Brush before sleep'],['laundrySort','Dirty clothes in one place'],['room5','Tidy for 5 minutes'],['nails','Nails and grooming'],['prep','Lay out clothes and bag'],['sleepPlan','Set a realistic bedtime']];
+const GW=[['laundry','Wash laundry and kit'],['bedding','Change or air bedding'],['room','Sweep and clean room'],['shoes','Clean and air shoes'],['nailsW','Trim nails'],['plan','Plan classes, training, meals'],['budget','Review spending']];
+const SEM=['Operating System','Data Communication','Database Management','Internet Programming and Web','System Analysis'];
+const SK=[['web','Web development',['HTML semantic structure','CSS layout and mobile','JS forms and interactivity','Publish on GitHub Pages','Small business demo site'],'https://www.freecodecamp.org/learn/2022/responsive-web-design/'],['git','Git and GitHub',['GitHub account and README','Repos, commits, branches','Push your portfolio','Clear project READMEs'],'https://skills.github.com/'],['data','Spreadsheets and data',['SUM, IF, COUNTIF','Sort, filter, validate','Stock or sales tracker','Monthly summary'],'https://support.microsoft.com/excel'],['sql','SQL and databases',['Tables, keys, relationships','SELECT, WHERE, JOIN','Small shop database','ER diagram and queries'],'https://sqlbolt.com/'],['support','IT support and networking',['Windows setup and fixes','IP, DNS, DHCP, routers','Linux terminal basics','Support notes and checklists'],'https://skillsforall.com/'],['design','Design and content',['3 consistent poster samples','3 short edited videos','Simple portfolio page','Offer a sample to a local org'],'https://www.canva.com/designschool/']];
+const CUR={ke:[['ke1','Khaligraph Jones','Punchlines and flow switches','Study flow switches and punchlines. Watch live cypher energy.'],['ke2','Nyashinski','Storytelling and melody','Lyrics that land soft but stay. Good for writing discipline.'],['ke3','Octopizzo','Street narratives','Production choices and cadence. Compare older and newer projects.'],['ke5','Boutross','Melodic trap','Hook construction. How melody carries the message.'],['ke6','King Kaka','Conscious, long career','Career arc. How message and brand stay consistent.'],['ke7','Wakadinali','Group chemistry','Collective energy. Study how features trade bars.'],['ke8','Breeder LW','Flow experiments','Rhythm and timing. A good freestyle reference.']],
+us:[['us1','Kendrick Lamar','Technique and narrative','Album structure. How themes evolve across tracks.'],['us2','J. Cole','Reflection and craft','Story arcs inside songs. Clear writing makes clear delivery.'],['us3','Nas','Classic bars','Illmatic still teaches structure. Compare early and late Nas.'],['us4','Tyler, the Creator','World-building','How the sound changes while he stays himself.'],['us5','Joey Bada$$','Boom-bap revival','Classic drums, modern writing. Good for pocket.'],['us9','Rapsody','Precision and intensity','Control and density. A high craft standard.'],['us8','Black Thought','Live excellence','Technical standard. Watch freestyles and live sets.']],
+rg:[['rg1','Scrum-half decision speed','Scan, then pass, box or snipe','Film 10 minutes of a pro scrum-half. Count decisions under pressure.'],['rg2','Passing under fatigue','Accuracy when tired','End-of-session drills. Track completion when your legs are gone.'],['rg3','Box kick consistency','Contestable and recovery','Height, hang time, chase line. Film and compare weekly.'],['rg4','Communication at the ruck','Clear calls','Simple language, same words every time.'],['rg5','Game management','When to slow, when to go','Watch top scrum-halves in the last 20 minutes. Note tempo changes.'],['rg6','Mobility and recovery','Stay available','Hips, ankles, shoulders. Non-negotiable for longevity.']]};
+const PG=[['today','Today','M5 12l4 4 10-10'],['train','Train','M3 12h18M6 7v10M18 7v10'],['learn','Learn','M4 5h6a2 2 0 012 2v12a2 2 0 00-2-2H4zM20 5h-6a2 2 0 00-2 2v12a2 2 0 012-2h6z'],['focus','Focus','M12 7v5l3 2M21 12a9 9 0 11-18 0 9 9 0 0118 0z'],['build','Build','M4 20V10M10 20V4M16 20v-7M22 20H2'],['discover','Discover','M21 12a9 9 0 11-18 0 9 9 0 0118 0zM15 9l-2 5-5 2 2-5z'],['journal','Journal','M6 3h12v18H6zM9 8h6M9 12h6'],['progress','Progress','M3 17l6-6 4 4 8-8']];
+
+/* Generic collections: form, list, edit, undo-delete. Storage keys match the old app. */
+const dd=(a,b)=>(a.due||'9').localeCompare(b.due||'9');
+const COLS={
+rugby:{k:'logs',own:x=>x.type==='Rugby',add:{type:'Rugby'},title:'Log a session',f:[['date','date','Date'],['focus','sel:Passing,Kicking,Decision making,Conditioning,Match,Skills circuit,Recovery,Other','Focus'],['mins','num','Minutes'],['intensity','sel:Medium,Light,Hard','Intensity'],['notes','area','Notes']],t:x=>x.focus,s:x=>[pd(x.date),x.mins?x.mins+' min':'',x.intensity,x.notes]},
+bench:{k:'benchmarks',title:'Add a benchmark',f:[['name','text','Name, e.g. 20m pass accuracy'],['value','num','Score'],['date','date','Date'],['notes','text','Notes']],t:x=>x.name,s:x=>[x.value??x.score,pd(x.date),x.notes],head:()=>{const g={};read('benchmarks',[]).slice().reverse().forEach(x=>{const v=Number(x.value??parseFloat(x.score));if(Number.isFinite(v))(g[x.name]=g[x.name]||[]).push(v)});const n=Object.entries(g).filter(([,v])=>v.length>1);return n.length?`<div class="panel"><h3>Trends</h3>${n.map(([k,v])=>`<div class="tr"><span>${esc(k)}</span>${spark(v)}<b>${v.at(-1)}</b></div>`).join('')}</div>`:''}},
+life:{k:'logs',own:x=>!['Rugby','Focus','Study'].includes(x.type),title:'Quick log',f:[['type','sel:Meal / nutrition,Sleep,Recovery,Mobility,Life admin,Other','Type'],['date','date','Date'],['mins','num','Minutes'],['notes','area','Notes']],t:x=>x.type,s:x=>[pd(x.date),x.mins?x.mins+' min':'',x.notes]},
+focus:{k:'logs',own:x=>x.type==='Focus',noform:1,f:[],t:x=>x.label||x.notes||'Focus block',s:x=>[pd(x.date),x.mins+' min']},
+task:{k:'tasks',title:'Add a task',f:[['title','text','Task'],['priority','sel:Medium,High,Low','Priority'],['due','date','Due'],['notes','text','Notes']],def:{status:'Open'},t:x=>x.title,s:x=>[x.priority,x.due?(x.status!=='Done'&&x.due<dk()?'Overdue ':'')+pd(x.due):'',x.notes],act:x=>x.status==='Done'?'Reopen':'Done',tog:x=>({status:x.status==='Done'?'Open':'Done'}),dim:x=>x.status==='Done',sort:(a,b)=>(a.status==='Done')-(b.status==='Done')||dd(a,b)},
+assess:{k:'assessments',title:'Add an assessment',f:[['title','text','Assignment or test'],['due','date','Due'],['status','sel:Not started,In progress,Submitted,Done','Status'],['notes','text','Weighting, requirements']],t:x=>x.title,s:x=>[x.due?pd(x.due):'No date',x.status,x.notes],dim:x=>x.status==='Done',sort:dd},
+money:{k:'money-entries',req:'amount',title:'Add an entry',f:[['desc','text','What was it?'],['amount','num','Amount'],['type','sel:Income,Expense,Saving','Type'],['date','date','Date']],t:x=>x.desc||x.type,s:x=>[x.type,Number(x.amount).toFixed(2),pd(x.date)],head:()=>{const t={Income:0,Expense:0,Saving:0};read('money-entries',[]).forEach(x=>t[x.type]+=Number(x.amount)||0);return`<div class="stats">${Object.entries(t).map(([k,v])=>`<div><small>${k}</small><b>${v.toFixed(2)}</b></div>`).join('')}</div>`}},
+proj:{k:'money-projects',title:'Add a project',f:[['name','text','Name'],['skill','sel:Web design,Content / video,Data / spreadsheets,IT support,Other','Skill'],['status','sel:Idea,In progress,Done,Paused','Status'],['link','text','Link or note']],t:x=>x.name,s:x=>[x.skill,x.status,/^https?:/i.test(x.link||'')?'':x.link]},
+creative:{k:'creative',title:'Add creative work',f:[['title','text','Title'],['type','sel:Design,Video,Writing,Photo,Other','Type'],['status','sel:Idea,In progress,Published,Archived','Status'],['link','text','Link'],['notes','area','Next step or description']],t:x=>x.title,s:x=>[x.type,x.status,pd(x.date),x.notes]},
+journal:{k:'journal',req:'body',search:1,title:'New entry',f:[['title','text','Title (optional)'],['body','area','Entry']],t:x=>x.title||'Untitled',s:x=>[pd(x.date)]},
+media:{k:'my-media',title:'Add a pick',f:[['title','text','Artist, album, match or topic'],['type','sel:Kenyan Hip-Hop,US Hip-Hop,Rugby,Other','Type'],['link','text','Link (YouTube, Spotify, article)'],['notes','area','Why it hits']],t:x=>x.title,s:x=>[({ke:'Kenyan Hip-Hop',us:'US Hip-Hop',rugby:'Rugby',other:'Other'})[x.type]||x.type,pd(x.date),x.notes]}};
+const ed={};
+const spark=v=>{const mn=Math.min(...v),r=Math.max(...v)-mn||1;return`<svg viewBox="0 0 100 30" preserveAspectRatio="none" class="sl" aria-hidden="true"><polyline points="${v.map((y,i)=>`${i/(v.length-1)*100},${26-(y-mn)/r*22}`).join(' ')}" fill="none" stroke="var(--ac)" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`};
+const inp=([n,t,l],v='')=>`<label class="f">${l}${t==='area'?`<textarea name="${n}">${esc(v)}</textarea>`:t.startsWith('sel:')?`<select name="${n}">${t.slice(4).split(',').map(o=>`<option${o===v?' selected':''}>${o}</option>`).join('')}</select>`:`<input name="${n}" type="${t==='num'?'number':t}"${t==='num'?' min="0" step="any" inputmode="decimal"':''} value="${esc(v)}">`}</label>`;
+function renderForm(id){const c=COLS[id],el=$('#f-'+id);if(!el||c.noform)return;const it=ed[id]&&read(c.k,[]).find(x=>String(x.id)===String(ed[id])),v=it||{};el.innerHTML=`<form class="panel" data-c="${id}"><h3>${it?'Edit entry':c.title}</h3><div class="g">${c.f.map(f=>inp(f,v[f[0]]??(f[1]==='date'?dk():''))).join('')}</div><div class="row"><button class="pri">${it?'Save changes':'Add'}</button>${it?`<button type="button" data-a="cancel" data-c="${id}">Cancel</button>`:''}</div></form>`}
+function renderCol(id){const c=COLS[id];let a=read(c.k,[]).filter(c.own||(()=>1));if(c.sort)a.sort(c.sort);const q=c.search&&($('#q-'+id)?.value||'').toLowerCase();if(q)a=a.filter(x=>JSON.stringify(x).toLowerCase().includes(q));
+if($('#h-'+id))$('#h-'+id).innerHTML=c.head?c.head():'';
+$('#l-'+id).innerHTML=a.length?a.slice(0,80).map(x=>`<div class="it${c.dim&&c.dim(x)?' dim':''}"><div><b>${esc(c.t(x))}</b><small>${c.s(x).filter(Boolean).map(esc).join(', ')}${lnk(x.link)}</small>${x.body?`<p>${esc(x.body)}</p>`:''}</div><div class="ac">${c.act?`<button data-a="act" data-c="${id}" data-i="${x.id}">${c.act(x)}</button>`:''}${c.noform?'':`<button data-a="edit" data-c="${id}" data-i="${x.id}">Edit</button>`}<button class="dg" data-a="del" data-c="${id}" data-i="${x.id}" aria-label="Delete">Delete</button></div></div>`).join(''):'<div class="empty">Nothing here yet.</div>'}
+
+/* Checklists, score, streak */
+function chk(el,items,key){const s=read(key,{});el.innerHTML=items.map(([k,t])=>`<label class="chk"><input type="checkbox" data-k="${k}"${s[k]?' checked':''}><span>${t}</span></label>`).join('');el.onchange=e=>{const s=read(key,{});s[e.target.dataset.k]=e.target.checked;write(key,s);refresh()}}
+const cnt=d=>{const s=read('checks-'+d,{});return HAB.filter(([k])=>s[k]).length};
+const streak=()=>{let n=0;for(let i=0;i<365;i++){if(cnt(off(-i))>=5)n++;else if(i)break}return n};
+function bars(){const h=[...Array(7)].map((_,i)=>{const k=off(i-6),n=cnt(k);return`<div><i><em style="height:${n/8*100}%"></em></i>${new Date(k+'T12:00:00').toLocaleDateString(undefined,{weekday:'short'})}<br>${n}/8</div>`}).join('');$$('.wb').forEach(e=>e.innerHTML=h)}
+function refresh(){const t=dk(),c=cnt(t),p=Math.round(c/8*100),L=read('logs',[]),ws=off(-new Date().getDay()),TK=read('tasks',[]);
+$('#score').textContent=p+'%';$('#bar').style.width=p+'%';$('#hint').textContent=p===100?'All standards done.':p>=60?'Solid. Keep going.':'Start with one useful action.';$('#hc').textContent=c+' / 8';
+const g=read('glow-'+t,{});$('#gp').textContent=[...GM,...GE].filter(([k])=>g[k]).length+' / 12';
+$('#st').innerHTML=[['Streak',streak()+' days'],['Focus today',L.filter(x=>x.type==='Focus'&&x.date===t).reduce((a,x)=>a+(+x.mins||0),0)+' min'],['Rugby this week',L.filter(x=>x.type==='Rugby'&&x.date>=ws).length],['Open tasks',TK.filter(x=>x.status!=='Done').length]].map(([k,v])=>`<div><small>${k}</small><b>${v}</b></div>`).join('');
+const n=[...TK.filter(x=>x.status!=='Done').map(x=>[x.title,x.due,'Task']),...read('assessments',[]).filter(x=>!['Done','Submitted'].includes(x.status)).map(x=>[x.title,x.due,'Assessment'])].sort((a,b)=>(a[1]||'9').localeCompare(b[1]||'9')).slice(0,4);
+$('#next').innerHTML=n.length?n.map(([a,d,k])=>`<div class="row bw ln"><span>${esc(a)} <small style="display:inline">${k}</small></span><small class="${d&&d<t?'od':''}">${d?(d<t?'Overdue, ':'')+pd(d):'No date'}</small></div>`).join(''):'<div class="mu">Nothing due. Pick a standard and go.</div>';
+bars();const e=read('last-export',0),has=L.length+read('journal',[]).length+TK.length>0,nd=$('#nudge');nd.hidden=!(has&&Date.now()-e>6048e5);nd.innerHTML='Your data only lives on this device. <a class="btn" href="#progress">Back it up</a>'}
+function drawToday(){const t=dk();$('#dt').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'short'});chk($('#habits'),HAB,'checks-'+t);chk($('#gm'),GM,'glow-'+t);chk($('#ge'),GE,'glow-'+t);chk($('#gw'),GW,'glow-week-'+off(-new Date().getDay()));const r=read('review-'+t,{}),w=read('weekly',{});$$('[data-rv]').forEach(e=>e.value=r[e.dataset.rv]||'');$$('[data-wk]').forEach(e=>e.value=w[e.dataset.wk]||'')}
+
+/* Learn: units and skill paths */
+const gu=()=>read('units',null)||SEM.map(n=>({name:n,progress:0,topic:'',next:''}));
+function units(){const nt=read('unit-notes',{});$('#units').innerHTML=gu().map((x,i)=>`<div class="panel"><div class="row bw"><b>${esc(x.name)}</b><span class="row"><span class="mu">${x.progress||0}%</span><button class="dg" data-a="udel" data-i="${i}">Remove</button></span></div><div class="bar"><i style="width:${x.progress||0}%"></i></div><div class="g"><label class="f">Progress %<input type="number" min="0" max="100" value="${x.progress||0}" data-u="${i}" data-n="progress"></label><label class="f">Current topic<input value="${esc(x.topic)}" data-u="${i}" data-n="topic"></label><label class="f">Next action<input value="${esc(x.next)}" data-u="${i}" data-n="next"></label></div><label class="f">Notes<textarea data-un="${esc(x.name)}">${esc(nt[x.name]||'')}</textarea></label></div>`).join('')+'<button data-a="uadd">Add unit</button>'}
+function skills(){const s=read('skill-progress',{});$('#sk').innerHTML=SK.map(([id,n,st,u])=>{const a=new Set(s[id]||[]);return`<details class="panel"><summary>${n} <span class="mu">${Math.round(a.size/st.length*100)}%</span></summary>${st.map((x,i)=>`<label class="chk"><input type="checkbox" data-sk="${id}" data-i="${i}"${a.has(i)?' checked':''}><span>${x}</span></label>`).join('')}<a class="btn" href="${u}" target="_blank" rel="noopener" style="margin-top:8px">Open resource</a></details>`}).join('')}
+
+/* Focus timer: timestamp based, survives refresh and background throttling */
+let T={mins:25,end:0,rem:0,label:'',...read('timer',{})};
+const left=()=>T.end?Math.max(0,Math.round((T.end-Date.now())/1e3)):(T.rem||T.mins*60),tsave=()=>write('timer',T);
+function tdraw(){const s=left(),t=`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;$('#td').textContent=t;document.title=T.end?t+' ZAYO LN':'ZAYO LN';$('#tb').textContent=T.end?'Pause':T.rem?'Resume':'Start';$$('.pre button').forEach(b=>b.classList.toggle('on',+b.dataset.m===T.mins));if(T.end&&s<=0)tdone()}
+function tgo(){if(T.end){T.rem=left();T.end=0}else{T.end=Date.now()+left()*1e3;T.rem=0;try{Notification.requestPermission()}catch{}}tsave();tdraw()}
+function tdone(){const a=read('logs',[]);a.unshift({id:uid(),type:'Focus',date:dk(),mins:T.mins,notes:T.label||T.mins+' min focus',label:T.label});write('logs',a);T.end=0;T.rem=0;tsave();try{const c=new AudioContext(),o=c.createOscillator();o.connect(c.destination);o.frequency.value=880;o.start();o.stop(c.currentTime+.4)}catch{}toast('Focus block complete: '+T.mins+' min');try{if(Notification.permission==='granted')new Notification('ZAYO LN',{body:'Focus block complete'})}catch{}renderCol('focus');refresh();tdraw()}
+
+/* Discover */
+let topic='all';
+function disc(){const sv=new Set(read('media-saved',[]));$('#dc').innerHTML=[['ke','Kenyan Hip-Hop'],['us','US Hip-Hop'],['rg','Rugby']].filter(([k])=>topic==='all'||topic==='saved'||topic===k).map(([k,n])=>{const l=CUR[k].filter(x=>topic!=='saved'||sv.has(x[0]));return l.length?`<h4>${n}</h4><div class="cards">${l.map(x=>`<button class="card" data-a="card" data-i="${x[0]}"><b>${esc(x[1])}</b><small>${esc(x[2])}</small>${sv.has(x[0])?'<span class="st" aria-label="Saved">★</span>':''}</button>`).join('')}</div>`:''}).join('')||'<div class="empty">Nothing saved yet. Open a card and tap Save.</div>'}
+function card(i){const x=Object.values(CUR).flat().find(y=>y[0]===i);if(!x)return;const sv=read('media-saved',[]).includes(i),rg=i[0]==='r',q=encodeURIComponent(x[1]+(rg?' rugby':' music'));
+$('#dlg').innerHTML=`<h3>${esc(x[1])}</h3><small>${esc(x[2])}</small><p style="margin:10px 0">${esc(x[3])}</p><div class="row"><a class="btn" href="https://www.youtube.com/results?search_query=${q}" target="_blank" rel="noopener">YouTube</a>${rg?'':`<a class="btn" href="https://open.spotify.com/search/${encodeURIComponent(x[1])}" target="_blank" rel="noopener">Spotify</a>`}</div><label class="f" style="margin-top:12px">Your notes<textarea id="mn">${esc(read('media-notes',{})[i]||'')}</textarea></label><div class="row" style="margin-top:12px"><button class="pri" data-a="nsave" data-i="${i}">Save note</button><button data-a="msave" data-i="${i}">${sv?'Unsave':'Save to favourites'}</button><button onclick="this.closest('dialog').close()">Close</button></div>`;$('#dlg').showModal()}
+
+/* Progress and backup */
+function drawProg(){const L=read('logs',[]);let m=0;for(let i=0;i<31;i++)if(cnt(off(-i)))m++;const ty={};L.forEach(l=>{const o=ty[l.type]=ty[l.type]||[0,0];o[0]++;o[1]+=+l.mins||0});
+$('#pst').innerHTML=[['Streak',streak()+' days'],['Active days, last 31',m],['Total logs',L.length]].map(([k,v])=>`<div><small>${k}</small><b>${v}</b></div>`).join('');
+$('#hm').innerHTML=[...Array(28)].map((_,i)=>{const k=off(i-27),n=cnt(k);return`<div style="--l:${n/8}" title="${k}: ${n}/8">${+k.slice(8)}</div>`}).join('');
+$('#bk').innerHTML=Object.entries(ty).map(([k,[n,mn]])=>`<div class="row bw ln"><span>${esc(k)}</span><span class="mu">${n} logs, ${mn} min</span></div>`).join('')||'<div class="mu">No logs yet.</div>';bars();
+const e=read('last-export',0);$('#ex').textContent=e?'Last backup: '+new Date(e).toLocaleString():'No backup yet.'}
+function exp(){const d={};try{for(const k of Object.keys(localStorage))if(k.startsWith(P))d[k]=localStorage.getItem(k)}catch{}mem.forEach((v,k)=>d[k]=v);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({version:5,exported:new Date().toISOString(),data:d})],{type:'application/json'}));a.download='zayo-ln-backup-'+dk()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1e3);write('last-export',Date.now());toast('Backup downloaded');drawProg();refresh()}
+async function imp(f){if(!f)return;try{const j=JSON.parse(await f.text()),e=Object.entries(j.data||j).filter(([k,v])=>k.startsWith(P)&&typeof v==='string');if(!e.length)throw 0;if(!confirm(`Import ${e.length} items? This overwrites matching data on this device. Export first if unsure.`))return;e.forEach(([k,v])=>{try{JSON.parse(v);localStorage.setItem(k,v)}catch{}});location.reload()}catch{toast('That is not a valid ZAYO backup file')}}
+
+/* Events */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const{a,c,i}=b.dataset,k=c&&COLS[c]?.k;
+if(a==='del'){const old=read(k,[]);write(k,old.filter(x=>String(x.id)!==i));renderCol(c);refresh();toast('Deleted',()=>{write(k,old);renderCol(c);refresh()})}
+else if(a==='edit'){ed[c]=i;renderForm(c);$('#f-'+c).scrollIntoView({block:'nearest'})}
+else if(a==='cancel'){ed[c]=null;renderForm(c)}
+else if(a==='act'){write(k,read(k,[]).map(x=>String(x.id)===i?{...x,...COLS[c].tog(x)}:x));renderCol(c);refresh()}
+else if(a==='topic'){topic=i;$$('[data-a=topic]').forEach(x=>x.classList.toggle('on',x.dataset.i===i));disc()}
+else if(a==='card')card(i);
+else if(a==='nsave'){const n=read('media-notes',{});n[i]=$('#mn').value;write('media-notes',n);$('#dlg').close();toast('Note saved')}
+else if(a==='msave'){let s=read('media-saved',[]);s=s.includes(i)?s.filter(x=>x!==i):[...s,i];write('media-saved',s);$('#dlg').close();disc();toast(s.includes(i)?'Saved to favourites':'Removed from favourites')}
+else if(a==='uadd'){const n=prompt('Unit name');if(n&&n.trim()){const u=gu();u.push({name:n.trim(),progress:0,topic:'',next:''});write('units',u);units()}}
+else if(a==='udel'){const u=gu();if(!confirm('Remove "'+u[i].name+'"?'))return;u.splice(i,1);write('units',u);units()}
+else if(a==='exp')exp();else if(a==='tgo')tgo();
+else if(a==='treset'){T.end=0;T.rem=0;tsave();tdraw()}
+else if(a==='tpre'){if(T.end)return toast('Pause or reset first');T.mins=+i;T.rem=0;tsave();tdraw()}});
+document.addEventListener('submit',e=>{const f=e.target.closest('form[data-c]');if(!f)return;e.preventDefault();const id=f.dataset.c,c=COLS[id],d=Object.fromEntries(new FormData(f));
+for(const[n,t]of c.f){if(typeof d[n]==='string')d[n]=d[n].trim();if(t==='num'&&d[n]!=='')d[n]=Number(d[n])}
+const rq=c.req||(c.f[0][1]==='text'?c.f[0][0]:null);if(rq&&!String(d[rq]??'').trim())return toast('Fill in the '+c.f.find(x=>x[0]===rq)[2].toLowerCase());
+if(id==='money'&&!(d.amount>0))return toast('Enter an amount above zero');
+const a=read(c.k,[]);if(ed[id]){write(c.k,a.map(x=>String(x.id)===String(ed[id])?{...x,...d}:x));ed[id]=null;toast('Changes saved')}else{a.unshift({id:uid(),...(c.def||{}),...(c.add||{}),date:dk(),...d});write(c.k,a);toast('Added')}
+renderForm(id);renderCol(id);refresh()});
+document.addEventListener('change',e=>{const t=e.target,d=t.dataset;
+if(d.rv){const k='review-'+dk(),r=read(k,{});r[d.rv]=t.value;write(k,r);toast('Review saved')}
+else if(d.wk){const w=read('weekly',{});w[d.wk]=t.value;write('weekly',w)}
+else if(d.u!==undefined){const u=gu();u[d.u][d.n]=d.n==='progress'?Math.min(100,Math.max(0,+t.value||0)):t.value;write('units',u);if(d.n==='progress'){const p=t.closest('.panel');p.querySelector('.mu').textContent=u[d.u].progress+'%';p.querySelector('.bar i').style.width=u[d.u].progress+'%'}}
+else if(d.un){const n=read('unit-notes',{});n[d.un]=t.value;write('unit-notes',n)}
+else if(d.sk){const s=read('skill-progress',{}),a=new Set(s[d.sk]||[]);t.checked?a.add(+d.i):a.delete(+d.i);s[d.sk]=[...a];write('skill-progress',s);t.closest('details').querySelector('summary span').textContent=Math.round(a.size/SK.find(x=>x[0]===d.sk)[2].length*100)+'%'}
+else if(t.id==='imp'){imp(t.files[0]);t.value=''}});
+document.addEventListener('input',e=>{const t=e.target;if(t.id?.startsWith('q-'))renderCol(t.id.slice(2));else if(t.id==='tl'){T.label=t.value;tsave()}});
+document.addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey||e.target.closest('input,textarea,select,dialog'))return;const n=+e.key;if(n>=1&&n<=PG.length)location.hash=PG[n-1][0]});
+$('#dlg').onclick=e=>{if(e.target.id==='dlg')e.target.close()};
+function show(){const p=PG.some(x=>x[0]===location.hash.slice(1))?location.hash.slice(1):'today';$$('.sec').forEach(s=>s.hidden=s.id!==p);$$('#nav a').forEach(a=>{const on=a.dataset.p===p;a.classList.toggle('on',on);on?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current')});if(p==='progress')drawProg();scrollTo(0,0)}
+
+/* Build the UI */
+const sh=(id,n)=>`<div id="f-${id}"></div><div id="h-${id}"></div><h4>${n}</h4>${COLS[id].search?`<input id="q-${id}" placeholder="Search entries" aria-label="Search entries" style="margin-bottom:8px">`:''}<div id="l-${id}"></div>`;
+const S=(id,h,b)=>`<section class="sec" id="${id}" hidden><h2>${h}</h2>${b}</section>`;
+$('#nav').innerHTML='<div class="brand">ZAYO <span>LN</span></div>'+PG.map(([id,n,d])=>`<a href="#${id}" data-p="${id}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>${n}</a>`).join('');
+$('#app').innerHTML=
+S('today','Today <span class="mu" id="dt" style="font-size:15px;font-weight:400"></span>',`<div id="nudge" class="note" hidden></div>
+<div class="panel"><small>Today's execution</small><div class="row bw" style="align-items:end"><div class="big" id="score">0%</div><small id="hint"></small></div><div class="bar"><i id="bar"></i></div></div>
+<div class="stats" id="st"></div>
+<div class="panel"><h3>Next up</h3><div id="next"></div><div class="row" style="margin-top:10px"><a class="btn pri" href="#focus">Start focus</a><a class="btn" href="#train">Log training</a></div></div>
+<div class="panel"><h3>Standards <span class="mu" id="hc"></span></h3><div id="habits"></div></div>
+<details class="panel"><summary>Glow-up <span class="mu" id="gp"></span></summary><h4>Morning</h4><div id="gm"></div><h4>Evening</h4><div id="ge"></div><h4>This week</h4><div id="gw"></div></details>
+<div class="panel"><h3>End-of-day review</h3><div class="g"><label class="f">What went well<textarea data-rv="win"></textarea></label><label class="f">What to improve<textarea data-rv="improve"></textarea></label><label class="f">Energy and notes<textarea data-rv="energy"></textarea></label></div></div>
+<div class="panel"><h3>This week</h3><div class="g"><label class="f">Focus<textarea data-wk="focus"></textarea></label><label class="f">The one thing that must happen<input data-wk="must"></label></div></div>
+<div class="panel"><h3>Last 7 days</h3><div class="wb"></div></div>`)+
+S('train','Train',sh('rugby','Sessions')+sh('bench','Benchmarks')+sh('life','Fuel and life logs'))+
+S('learn','Learn',sh('task','Tasks')+sh('assess','Assessments')+'<h4>Semester units</h4><div id="units"></div><h4>Skill paths</h4><div id="sk"></div>')+
+S('focus','Focus',`<div class="panel"><div class="pre">${[25,45,50,90].map(m=>`<button data-a="tpre" data-i="${m}" data-m="${m}">${m}</button>`).join('')}</div><div class="td" id="td" role="timer">25:00</div><div class="row" style="justify-content:center"><button class="pri" id="tb" data-a="tgo">Start</button><button data-a="treset">Reset</button></div><label class="f" style="max-width:300px;margin:12px auto 0">Label<input id="tl" placeholder="e.g. Database unit"></label></div><h4>Recent blocks</h4><div id="l-focus"></div>`)+
+S('build','Build',sh('money','Entries')+sh('proj','Projects')+sh('creative','Creative portfolio'))+
+S('discover','Discover','<div class="row" style="margin-bottom:12px">'+[['all','All'],['ke','Kenyan'],['us','US'],['rg','Rugby'],['saved','Favourites']].map(([k,n])=>`<button data-a="topic" data-i="${k}"${k==='all'?' class="on"':''}>${n}</button>`).join('')+'</div><div id="dc"></div>'+sh('media','Your picks'))+
+S('journal','Journal',sh('journal','Entries'))+
+S('progress','Progress','<div class="stats" id="pst"></div><div class="panel"><h3>Last 28 days</h3><div class="hm" id="hm"></div></div><div class="panel"><h3>Last 7 days</h3><div class="wb"></div></div><div class="panel"><h3>Breakdown</h3><div id="bk"></div></div><div class="panel"><h3>Backup</h3><p class="mu">Everything is stored on this device only. Export regularly.</p><div class="row" style="margin:10px 0"><button class="pri" data-a="exp">Export JSON</button><label class="btn" style="color:var(--tx)">Import<input id="imp" class="vh" type="file" accept=".json,application/json"></label></div><small id="ex"></small></div>');
+Object.keys(COLS).forEach(id=>{renderForm(id);renderCol(id)});
+units();skills();disc();drawToday();$('#tl').value=T.label||'';tdraw();refresh();show();
+addEventListener('hashchange',show);document.addEventListener('visibilitychange',tdraw);
+let cur=dk();setInterval(()=>{if(T.end)tdraw();if(dk()!==cur){cur=dk();drawToday();refresh()}},1000);
+try{navigator.storage?.persist?.()}catch{}
+</script></body></html>
